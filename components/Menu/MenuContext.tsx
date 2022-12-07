@@ -1,5 +1,5 @@
-import { useDisclosure } from "@chakra-ui/react";
 import { createContext } from "react";
+import { useDisclosure } from "@chakra-ui/react";
 
 type MenuContextType = {
   isOpen: boolean;

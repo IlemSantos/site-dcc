@@ -1,5 +1,5 @@
-import { Collapse } from "@chakra-ui/react";
 import { useContext } from "react";
+import { Collapse } from "@chakra-ui/react";
 
 import MenuContext from "./MenuContext";
 
