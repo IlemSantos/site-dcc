@@ -4,19 +4,17 @@ import { FiMenu } from "react-icons/fi"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import useSWR from "swr"
-import axios from "axios"
 
 import NavbarMobile from "./NavbarMobile"
+import fetcher from "../../services/fetcher"
 
 interface Departament {
-  id?: string | undefined;
   title: string;
+  slug?: string | undefined;
 };
 
-const fetcher = (...args) => axios(...args).then(res => res.data)
-
 export default function Navbar() {
-  const { data, error } = useSWR<Departament[], Error>('http://localhost:4000/departments', fetcher)
+  const { data, error } = useSWR<Departament[], Error>('/departments', fetcher)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
 
@@ -70,7 +68,7 @@ export default function Navbar() {
               <MenuList fontSize="md">
                 {
                   data?.map((department, index) => (
-                    <MenuItem key={index} onClick={() => router.push(`/departamento/${department.id}`)}>{department.title}</MenuItem>
+                    <MenuItem key={index} onClick={() => router.push(`/departamento/${department.slug}`)}>{department.title}</MenuItem>
                   ))
                 }
               </MenuList>
