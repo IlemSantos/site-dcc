@@ -1,32 +1,34 @@
-import axios from 'axios'
+import { Heading } from '@chakra-ui/react';
 import Link from 'next/link'
 
+import api from '../../services/api';
+
 export async function getStaticProps() {
-  const res = await axios('http://localhost:4000/departments')
-  const departments = res.data
+  const res = await api('/departments')
+  const data = res.data
 
   return {
     props: {
-      departments,
+      data,
     },
   }
 }
 
-interface DepartamentoProps {
-  departments: {
-    id?: string | undefined;
+interface PageProps {
+  data: {
     title: string;
+    slug?: string | undefined;
   }[];
 };
 
-export default function Department({ departments }: DepartamentoProps) {
+export default function Page({ data }: PageProps) {
   return (
     <>
-      <h1>Lista de Pages</h1>
+      <Heading mb={2}>Lista de Pages</Heading>
       <ul>
         {
-          departments.map((department, index) => (
-            <li key={index}>{department.title} - <Link href={`/departamento/${department.id}`}>Ver mais</Link></li>
+          data?.map((element, index) => (
+            <li key={index}>{element.title} - <Link href={`/departamento/${element.slug}`}>Ver mais</Link></li>
           ))
         }
       </ul>
