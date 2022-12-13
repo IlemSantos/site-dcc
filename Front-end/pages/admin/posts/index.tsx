@@ -5,9 +5,25 @@ import Layout from "../../../components/Layout_Admin";
 import api from "../../../services/api";
 
 interface PostsProps {
+  posts: {
+    slug: string;
+    title: string;
+    content: {
+      type?: string | undefined;
+      children: {
+        text: string;
+      }[];
+    }[];
+    type?: string | undefined;
+    id?: number | undefined;
+    status?: string | undefined;
+    link?: string | undefined;
+    author?: string | undefined;
+    updatedAt: any;
+  }[]
 };
 
-export default function Posts({ posts }: any) {
+export default function Posts({ posts }: PostsProps) {
   const router = useRouter()
 
   return (

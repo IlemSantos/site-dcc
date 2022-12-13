@@ -38,10 +38,12 @@ export async function getByPostSlug(req, res) {
 
 export async function createPost(req, res) {
     try {
-        const { id, slug, status, type, title, content, author } = req.body;
+        const { slug, status, type, title, content, author } = req.body;
 
         if (await Post.findOne({ slug }).exec())
             return res.status(400).send({ error: 'Post already exists' });
+
+        const id = Math.floor(Math.random() * 100);
 
         const post = await Post.create({ id, slug: slugify(slug, { lower: true }), status, type, title, content, author });
 

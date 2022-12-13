@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const PostSchema = new Schema({
-    id: { type: Number },
+    id: { type: Number, required: true },
     slug: { type: String, required: true },
-    status: { type: String },
-    type: { type: String },
+    status: { type: String, required: true },
+    type: { type: String, required: true },
     link: { type: String },
     title: { type: String, required: true },
-    content: [{ type: { type: String, required: true }, children: [{ text: { type: String } }] }],
+    content: [{ type: { type: String }, children: [{ text: { type: String } }] }],
     author: { type: String },
 }, {
     timestamps: true

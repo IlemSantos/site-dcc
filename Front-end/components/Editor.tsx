@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { BaseEditor, createEditor, Descendant } from 'slate';
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { Box, Button, ButtonGroup, Flex, FormControl, FormErrorMessage, FormLabel, Input, Spacer } from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, Input, Spacer } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 
 type CustomElement = { type: 'paragraph'; children: CustomText[] }
@@ -23,9 +23,9 @@ interface EditorProps {
 };
 
 export function Editor({ buttonLabel, initialValue, onsubmit }: EditorProps) {
-  const { handleSubmit, register, formState: { errors } } = useForm()
+  const { handleSubmit, register } = useForm()
   const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-  const [editorState, setEditorState] = useState<CustomElement[]>([])
+  const [editorState, setEditorState] = useState<Descendant[]>(initialValue)
 
   const onSubmit = async (data: any) => {
     await onsubmit({
@@ -34,7 +34,7 @@ export function Editor({ buttonLabel, initialValue, onsubmit }: EditorProps) {
     });
   }
 
-  const onChange = (evt) => setEditorState(evt);
+  const onChange = (evt: any) => setEditorState(evt);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -45,25 +45,18 @@ export function Editor({ buttonLabel, initialValue, onsubmit }: EditorProps) {
         </ButtonGroup>
       </Flex>
 
-      <FormControl isInvalid={errors.title} mb={2}>
+      <FormControl mb={2}>
         <FormLabel htmlFor="title">Título</FormLabel>
         <Input {...register('title', {
           required: 'This is required',
         })} id="title" name="title" type="text" />
-        <FormErrorMessage>
-          {errors.title && errors.title.message}
-        </FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={errors.slug} mb={2}>
+      <FormControl mb={2}>
         <FormLabel htmlFor="slug">Slug</FormLabel>
         <Input {...register('slug', {
           required: 'This is required',
-          minLength: { value: 4, message: 'Minimum length should be 4' },
         })} id="slug" name="slug" type="text" />
-        <FormErrorMessage>
-          {errors.slug && errors.slug.message}
-        </FormErrorMessage>
       </FormControl>
 
       <Box height='md' p={4} bg='white' border='2px' borderColor='gray.200' borderRadius={6}>

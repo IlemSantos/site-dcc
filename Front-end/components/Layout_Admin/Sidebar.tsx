@@ -34,8 +34,8 @@ export default function Sidebar() {
           Páginas
         </MenuButton>
         <MenuList>
-          <MenuItem fontSize='sm'>Todas as páginas</MenuItem>
-          <MenuItem fontSize='sm'>Adicionar nova</MenuItem>
+          <MenuItem fontSize='sm' onClick={() => router.push(`/admin/pages`)}>Todas as páginas</MenuItem>
+          <MenuItem fontSize='sm' onClick={() => router.push(`/admin/pages/new-page`)}>Adicionar nova</MenuItem>
         </MenuList>
       </MenuProvider>
 

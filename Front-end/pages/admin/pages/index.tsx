@@ -23,18 +23,18 @@ export default function Posts({ posts }: any) {
                 <Th>Autor</Th>
                 <Th>Status</Th>
                 <Th>Update</Th>
-                {/* <Th>Ações</Th> */}
+                <Th>Ações</Th>
               </Tr>
             </Thead>
             <Tbody>
               {
-                posts.map((element, index) => (
+                posts.map((element: any, index: any) => (
                   <Tr key={index}>
                     <Td>{element.title}</Td>
                     <Td>{element.author}</Td>
                     <Td>{element.status}</Td>
                     <Td>{element.updatedAt}</Td>
-                    {/* <Td><Button colorScheme='blue' size='sm' px={4} onClick={() => router.push(`./posts/edit-post/${element.slug}`)}>Edit</Button></Td> */}
+                    <Td><Button colorScheme='blue' size='sm' px={4} onClick={() => router.push(`./pages/edit-page/${element.slug}`)}>Editar</Button></Td>
                   </Tr>
                 ))
               }
@@ -47,7 +47,7 @@ export default function Posts({ posts }: any) {
 }
 
 export async function getServerSideProps() {
-  const res = await api('/posts')
+  const res = await api('/departments')
   const posts = res.data
 
   return {

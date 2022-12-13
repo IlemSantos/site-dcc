@@ -12,6 +12,7 @@ export async function getStaticProps() {
     props: {
       posts,
     },
+    revalidate: 10,
   }
 }
 
@@ -36,6 +37,7 @@ interface NewsProps {
 export default function News({ posts }: NewsProps) {
   return (
     <Layout>
+      <Heading mb={4}>Principais notícias</Heading>
       <Flex flexWrap='wrap' gap={6}>
         {
           posts.map((element, index) => (

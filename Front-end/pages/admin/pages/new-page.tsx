@@ -7,20 +7,20 @@ import api from "../../../services/api";
 
 const Editor = dynamic(() => import('../../../components/Editor'), { ssr: false })
 
-export function NewPost() {
+export function NewPage() {
 
   const onSubmit = async (data: any) => {
-    await api.post('/posts', {
+    await api.post('/departments', {
       ...data,
       status: 'publish',
-      type: 'post',
+      type: 'page',
     });
   }
 
   return (
     <Layout>
       <Box>
-        <Heading>Nova Notícia</Heading>
+        <Heading>Nova Página</Heading>
         <Editor buttonLabel={'Adicionar'} initialValue={initialValue} onsubmit={onSubmit} />
       </Box>
     </Layout>
@@ -36,4 +36,4 @@ const initialValue: Descendant[] = [
   },
 ]
 
-export default NewPost
+export default NewPage

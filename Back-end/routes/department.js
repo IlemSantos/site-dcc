@@ -7,8 +7,7 @@ import Department from '../models/department.js';
 
 router.get('/', async (req, res) => {
     try {
-        // const departments = await Department.find();
-        const departments = await Department.find({}, { _id: false, title: true, slug: true });
+        const departments = await Department.find({}, { _id: false });
 
         return res.send(departments);
     } catch (err) {
@@ -30,9 +29,11 @@ router.get('/:slug', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { title, slug, author, body } = req.body;
+        const { slug, status, type, title, content, author } = req.body;
 
-        const department = await Department.create({ title, slug: slugify(slug, { lower: true }), author, body });
+        const id = Math.floor(Math.random() * 100);
+
+        const department = await Department.create({ id, slug: slugify(slug, { lower: true }), status, type, title, content, author });
 
         return res.status(201).send(department);
     } catch (err) {
@@ -43,12 +44,15 @@ router.post('/', async (req, res) => {
 router.put('/:slug', async (req, res) => {
     try {
         const { slug } = req.params;
-        const { author, body } = req.body;
+        const { status, type, title, content, author } = req.body;
 
         const department = await Department.findOne({ slug: slug }).exec();
 
-        department.author = author;
-        department.body = body;
+        department.status = status ? status : department.status;
+        department.type = type ? type : department.type;
+        department.title = title ? title : department.title;
+        department.content = content ? content : department.content;
+        department.author = author ? author : department.author;
 
         await department.save();
 

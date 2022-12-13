@@ -27,25 +27,46 @@ export async function getStaticProps(context: any) {
     props: {
       page,
     },
+    revalidate: 10,
+  }
+}
+
+interface PageProps {
+  page: {
+    slug: string;
+    title: string;
+    content: {
+      type?: string | undefined;
+      children: {
+        text?: string | undefined;
+      }[];
+    }[];
+    type?: string | undefined;
+    id?: number | undefined;
+    status?: string | undefined;
+    link?: string | undefined;
+    author?: string | undefined;
   }
 }
 
 interface DepartamentoProps {
-  page: {
-    title: string;
-    slug?: string | undefined;
-    author?: string | undefined;
-    body: string[];
-  };
-};
-
-interface Departament {
+  slug: string;
   title: string;
-  slug?: string | undefined;
+  content: {
+    type?: string | undefined;
+    children: {
+      text?: string | undefined;
+    }[];
+  }[];
+  type?: string | undefined;
+  id?: number | undefined;
+  status?: string | undefined;
+  link?: string | undefined;
+  author?: string | undefined;
 };
 
-export default function Page({ page }: DepartamentoProps) {
-  const { data, error } = useSWR<Departament[], Error>('/departments', fetcher)
+export default function Page({ page }: PageProps) {
+  const { data, error } = useSWR<DepartamentoProps[], Error>('/departments', fetcher)
 
   return (
     <Layout>
@@ -53,8 +74,8 @@ export default function Page({ page }: DepartamentoProps) {
         <VStack justifyContent='center' w='md'>
           <ul>
             {
-              data?.map((department, index) => (
-                <li key={index}><Link href={`/departamento/${department.slug}`}>{department.title}</Link></li>
+              data?.map((element, index) => (
+                <li key={index}><Link href={`/departamento/${element.slug}`}>{element.title}</Link></li>
               ))
             }
           </ul>
@@ -63,8 +84,10 @@ export default function Page({ page }: DepartamentoProps) {
         <Box>
           <Heading as='h2' size='xl' textAlign='center' mb={6}>{page.title}</Heading>
           {
-            page.body.map((element, index) => (
-              <Text key={index}>{element}</Text>
+            page.content.map((element, index) => (
+              element.children.map((element, index) => (
+                <Text key={index} mb={2}>{element.text}</Text>
+              ))
             ))
           }
         </Box>
@@ -72,4 +95,3 @@ export default function Page({ page }: DepartamentoProps) {
     </Layout>
   )
 }
-

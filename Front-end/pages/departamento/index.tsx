@@ -17,7 +17,7 @@ export async function getStaticProps() {
 interface PageProps {
   data: {
     title: string;
-    slug?: string | undefined;
+    slug: string;
   }[];
 };
 

@@ -24,6 +24,7 @@ export async function getStaticProps(context: any) {
     props: {
       post,
     },
+    revalidate: 10,
   }
 }
 
